@@ -1,28 +1,67 @@
-<div class="config-container">
-  <h1>Step 2: Select Your Configuration</h1>
 
-  <label for="config">Config:</label>
-  <select id="config" [(ngModel)]="selectedConfigId" (change)="onConfigChange()">
-    <option *ngFor="let config of configOptions" [value]="config.id">
-      {{ config.description }}
-    </option>
-  </select>
+<h1>Step 2: Choose  Configuration</h1>
+@if (selectedModel()) {
+  <div>
+    <div>
+      <label  for="configSelect">Configuration:</label>
+      <select id="configSelect" (change)="onConfigChange">
+        <option value="">Choose...</option>
+        @for (config of availableConfigs(); track config.id) {
+          <option [value]="config.id">
+            {{ config.description }}
+          </option>
+        }
+      </select>
+    </div>
 
-  <div *ngIf="selectedConfig">
-    <p><strong>Range:</strong> {{ selectedConfig.range }} miles</p>
-    <p><strong>Max Speed:</strong> {{ selectedConfig.speed }} mph</p>
-    <p><strong>Cost:</strong> ${{ totalPrice }}</p>
+    @if (selectedConfig()) {
+      <div class="config-details">
+        <h3>Configuration Details</h3>
+        <p><strong>Range:</strong> {{ selectedConfig()?.range }} miles</p>
+        <p><strong>Max Speed:</strong> {{ selectedConfig()?.speed }} mph</p>
+      </div>
+    }
 
-    <div class="image-container">
-      <img *ngIf="vehicleImage" [src]="vehicleImage" alt="{{ selectedConfig.description }}" class="config-image" />
+    <div class="options">
+      <h3>Additional Options</h3>
+
+      @if (yokeAvailable()) {
+        <div class="option">
+          <input
+            type="checkbox"
+            id="yoke"
+            [checked]="selectedYoke()"
+            (change)="onYokeChange($event)"
+          >
+          <label for="yoke">Yoke Steering Wheel ($1,000)</label>
+        </div>
+      }
+
+      @if (towHitchAvailable()) {
+        <div class="option">
+          <input
+            type="checkbox"
+            id="towHitch"
+            [checked]="selectedTowHitch()"
+            (change)="onTowHitchChange($event)"
+          >
+          <label for="towHitch">Tow Hitch Package ($1,000)</label>
+        </div>
+      }
+    </div>
+
+    <div class="total-price">
+      <h3>Total Price: {{ totalPrice() | currency }}</h3>
     </div>
   </div>
+} @else {
+  <div class="no-model-selected">
+    <p>Please select a model and color in Step 1 first.</p>
+  </div>
+}
+@if (imageUrl()) {
+  <div>
+    <img [src]="imageUrl()" alt="Tesla Model" />
+  </div>
+}
 
-  <label>
-    <input type="checkbox" [(ngModel)]="towHitch" (change)="updateTotalPrice()" /> Tow Hitch
-  </label>
-  <br>
-  <label>
-    <input type="checkbox" [(ngModel)]="yoke" (change)="updateTotalPrice()" /> Yoke Steering wheel
-  </label>
-</div>

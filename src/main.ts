@@ -1,6 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
-import {AppComponent} from "./app/app.component";
+import {AppComponent} from  "./app/app.component";
 import {HttpEvent, HttpHandlerFn, HttpRequest, HttpResponse} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 

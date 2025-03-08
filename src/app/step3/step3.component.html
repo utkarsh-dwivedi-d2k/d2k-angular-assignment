@@ -1,51 +1,77 @@
-<!-- <div class="step3-container">
-  <h2>Configuration Summary</h2>
-
-  <div class="summary-section">
-    <h3>Vehicle Details</h3>
-    <p>Model: {{ selectedConfig.car.description }}</p>
-    <p>Color: {{ selectedConfig.color.description }}</p>
-  </div>
-
-  <div class="pricing-section">
-    <h3>Pricing Breakdown</h3>
-    <table>
-      <tr>
-        <td>Base Vehicle Cost:</td>
-        <td>{{ formatPrice(selectedConfig.car.price || 0) }}</td>
-      </tr>
-      <tr>
-        <td>Color ({{ selectedConfig.color.description }}):</td>
-        <td>{{ formatPrice(selectedConfig.color.price) }}</td>
-      </tr>
-      <tr>
-        <td>Configuration ({{ selectedConfig.config.description }}):</td>
-        <td>{{ formatPrice(selectedConfig.config.price) }}</td>
-      </tr>
-      <tr *ngIf="selectedConfig.yoke">
-        <td>Yoke Steering Wheel:</td>
-        <td>{{ formatPrice(1000) }}</td>
-      </tr>
-      <tr *ngIf="selectedConfig.towHitch">
-        <td>Tow Hitch Package:</td>
-        <td>{{ formatPrice(1000) }}</td>
-      </tr>
-      <tr class="total">
-        <td><strong>Total Cost:</strong></td>
-        <td><strong>{{ formatPrice(totalPrice) }}</strong></td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="technical-details">
-    <h3>Technical Details</h3>
-    <p>Range: {{ selectedConfig.config.range }} miles</p>
-    <p>Max Speed: {{ selectedConfig.config.speed }} mph</p>
-  </div>
-
-  <div class="navigation-buttons">
-    <button (click)="goBack()">Back to Configuration</button>
-    <button (click)="completeOrder()">Complete Order</button>
-  </div>
+<div class="navigation-buttons">
+  <a [routerLink]="['/step1']" class="btn btn-secondary">Back to Model & Color</a>
+  <a [routerLink]="['/step2']" class="btn btn-secondary">Back to Configuration</a>
+  <a [routerLink]="['order']" class="btn btn-primary">Place Order</a>
 </div>
-   -->
+
+
+
+@if (!isOrderRoute) {
+
+
+  <div >
+    <h1>Step 3: Order Summary</h1>
+     <div >
+      <h2>Your Tesla Configuration</h2>
+      <div>
+        <p><strong>Model:</strong> {{ modelDescription }}</p>
+        <p><strong>Color:</strong> {{ colorDescription }}</p>
+        <p><strong>Configuration:</strong> {{ configDescription }}</p>
+
+        @if (yokeAvailable() && selectedYoke()) {
+          <p><strong>Yoke Steering Wheel:</strong> Yes</p>
+        }
+
+        @if (towHitchAvailable() && selectedTowHitch()) {
+          <p><strong>Tow Hitch Package:</strong> Yes</p>
+        }
+      </div>
+    </div>
+
+    <div >
+      <h2>Cost Breakdown</h2>
+      <table >
+        <tbody>
+          <tr>
+            <td>Base Configuration ({{ configDescription }})</td>
+            <td class="price">{{ configPrice | currency }}</td>
+          </tr>
+          <tr>
+            <td>Color ({{ colorDescription }})</td>
+            <td class="price">{{ colorPrice | currency }}</td>
+          </tr>
+
+          @if (yokeAvailable() && selectedYoke()) {
+            <tr>
+              <td>Yoke Steering Wheel</td>
+              <td class="price">{{ yokePrice | currency }}</td>
+            </tr>
+          }
+
+          @if (towHitchAvailable() && selectedTowHitch()) {
+            <tr>
+              <td>Tow Hitch Package</td>
+              <td class="price">{{ towHitchPrice | currency }}</td>
+            </tr>
+          }
+
+          <tr >
+            <td><strong>Total Price</strong></td>
+            <td class="price"><strong>{{ totalPrice() | currency }}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+  <div >
+    @if (configuratorService.imageUrl()) {
+      <img [src]="configuratorService.imageUrl()" alt="Your Tesla" />
+    }
+  </div>
+
+
+}
+
+<router-outlet></router-outlet>

@@ -1,72 +1,75 @@
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ConfiguratorService } from '../configurator.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-step3',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './step3.component.html',
-  styleUrls: ['./step3.component.scss']
+  styleUrl: './step3.component.scss'
 })
-export class Step3Component {
-//   private router = inject(Router);
-//   public configurator = inject(ConfiguratorService);
+export class Step3Component implements OnInit {
+  public configuratorService = inject(ConfiguratorService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-//   // Breakdown of selected configuration
-//   get selectedConfiguration() {
-//     const config = this.configurator.getSelectedConfig();
-//     return {
-//       car: config.car.description,
-//       color: config.color.description,
-//       colorPrice: config.color.price,
-//       configDescription: config.config.description,
-//       configPrice: config.config.price,
-//       range: config.config.range,
-//       speed: config.config.speed,
-//       yoke: config.yoke,
-//       towHitch: config.towHitch
-//     };
-//   }
+  isOrderRoute = false;
 
-//   constructor() {
-//     // Redirect to step 1 if configuration is incomplete
-//     if (!this.configurator.isConfigurationComplete()) {
-//       this.router.navigate(['/step1']);
-//     }
-//   }
+  // Properties for the template
+  modelDescription = '';
+  colorDescription = '';
+  configDescription = '';
+  configPrice = 0;
+  colorPrice = 0;
+  yokePrice = 1000; // Example price
+  towHitchPrice = 1000; // Example price
 
-//   goBack() {
-//     this.router.navigate(['/step2']);
-//   }
+  // Expose service signals to the template
+  selectedModel = this.configuratorService.selectedModel;
+  selectedColor = this.configuratorService.selectedColor;
+  selectedConfig = this.configuratorService.selectedConfig;
+  yokeAvailable = this.configuratorService.yokeAvailable;
+  towHitchAvailable = this.configuratorService.towHitchAvailable;
+  selectedYoke = this.configuratorService.selectedYoke;
+  selectedTowHitch = this.configuratorService.selectedTowHitch;
+  totalPrice = this.configuratorService.totalPrice;
 
-//   completeOrder() {
-//     // Clear configuration and navigate to confirmation
-//     this.router.navigate(['/confirmation']);
-//   }
+  ngOnInit() {
+    // Set initial values
+    this.updateDisplayValues();
 
-//   // Format price with USD currency, no decimal places
-//   formatPrice(price: number): string {
-//     return price.toLocaleString('en-US', {
-//       style: 'currency',
-//       currency: 'USD',
-//       minimumFractionDigits: 0,
-//       maximumFractionDigits: 0
-//     });
-//   }
+    // Check if we're on the order route
+    this.checkIfOrderRoute();
 
-//   // Calculate additional option prices
-//   getOptionsPrices(): { yoke: number; towHitch: number } {
-//     return {
-//       yoke: this.selectedConfiguration.yoke ? 1000 : 0,
-//       towHitch: this.selectedConfiguration.towHitch ? 1000 : 0
-//     };
-//   }
+    // Subscribe to route changes to update the isOrderRoute flag
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.checkIfOrderRoute();
+    });
+  }
 
-//   // Total price calculation matching service's computed signal
-//   get totalPrice(): number {
-//     return this.configurator.totalPrice();
-//   }
+  private checkIfOrderRoute() {
+    const url = this.router.url;
+    this.isOrderRoute = url.includes('/step3/order');
+  }
+
+  private updateDisplayValues() {
+    if (this.selectedModel()) {
+      this.modelDescription = this.selectedModel()?.description || '';
+    }
+
+    if (this.selectedColor()) {
+      this.colorDescription = this.selectedColor()?.description || '';
+      this.colorPrice = this.selectedColor()?.price || 0;
+    }
+
+    if (this.selectedConfig()) {
+      this.configDescription = this.selectedConfig()?.description || '';
+      this.configPrice = this.selectedConfig()?.price || 0;
+    }
+  }
 }

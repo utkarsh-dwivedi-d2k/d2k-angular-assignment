@@ -2,7 +2,6 @@ export interface CarModel {
   code:        string;
   description: string;
   colors:      Color[];
-
 }
 
 export interface Color {
@@ -32,8 +31,4 @@ export interface SelectedConfig {
   config: Config;
   yoke: boolean;
   towHitch: boolean;
-
 }
-
-
-
