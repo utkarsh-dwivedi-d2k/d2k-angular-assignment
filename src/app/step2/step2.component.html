@@ -1,0 +1,28 @@
+<div class="config-container">
+  <h1>Step 2: Select Your Configuration</h1>
+
+  <label for="config">Config:</label>
+  <select id="config" [(ngModel)]="selectedConfigId" (change)="onConfigChange()">
+    <option *ngFor="let config of configOptions" [value]="config.id">
+      {{ config.description }}
+    </option>
+  </select>
+
+  <div *ngIf="selectedConfig">
+    <p><strong>Range:</strong> {{ selectedConfig.range }} miles</p>
+    <p><strong>Max Speed:</strong> {{ selectedConfig.speed }} mph</p>
+    <p><strong>Cost:</strong> ${{ totalPrice }}</p>
+
+    <div class="image-container">
+      <img *ngIf="vehicleImage" [src]="vehicleImage" alt="{{ selectedConfig.description }}" class="config-image" />
+    </div>
+  </div>
+
+  <label>
+    <input type="checkbox" [(ngModel)]="towHitch" (change)="updateTotalPrice()" /> Tow Hitch
+  </label>
+  <br>
+  <label>
+    <input type="checkbox" [(ngModel)]="yoke" (change)="updateTotalPrice()" /> Yoke Steering wheel
+  </label>
+</div>

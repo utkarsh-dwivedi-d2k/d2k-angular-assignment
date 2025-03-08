@@ -1,0 +1,51 @@
+<!-- <div class="step3-container">
+  <h2>Configuration Summary</h2>
+
+  <div class="summary-section">
+    <h3>Vehicle Details</h3>
+    <p>Model: {{ selectedConfig.car.description }}</p>
+    <p>Color: {{ selectedConfig.color.description }}</p>
+  </div>
+
+  <div class="pricing-section">
+    <h3>Pricing Breakdown</h3>
+    <table>
+      <tr>
+        <td>Base Vehicle Cost:</td>
+        <td>{{ formatPrice(selectedConfig.car.price || 0) }}</td>
+      </tr>
+      <tr>
+        <td>Color ({{ selectedConfig.color.description }}):</td>
+        <td>{{ formatPrice(selectedConfig.color.price) }}</td>
+      </tr>
+      <tr>
+        <td>Configuration ({{ selectedConfig.config.description }}):</td>
+        <td>{{ formatPrice(selectedConfig.config.price) }}</td>
+      </tr>
+      <tr *ngIf="selectedConfig.yoke">
+        <td>Yoke Steering Wheel:</td>
+        <td>{{ formatPrice(1000) }}</td>
+      </tr>
+      <tr *ngIf="selectedConfig.towHitch">
+        <td>Tow Hitch Package:</td>
+        <td>{{ formatPrice(1000) }}</td>
+      </tr>
+      <tr class="total">
+        <td><strong>Total Cost:</strong></td>
+        <td><strong>{{ formatPrice(totalPrice) }}</strong></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="technical-details">
+    <h3>Technical Details</h3>
+    <p>Range: {{ selectedConfig.config.range }} miles</p>
+    <p>Max Speed: {{ selectedConfig.config.speed }} mph</p>
+  </div>
+
+  <div class="navigation-buttons">
+    <button (click)="goBack()">Back to Configuration</button>
+    <button (click)="completeOrder()">Complete Order</button>
+  </div>
+</div>
+   -->
