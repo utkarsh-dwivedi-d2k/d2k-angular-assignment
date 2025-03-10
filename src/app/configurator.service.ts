@@ -98,7 +98,6 @@ export class ConfiguratorService {
     return total;
   });
 
-  // Computed signal for image URL.
   readonly imageUrl = computed(() => {
     const model = this.selectedModel();
     const color = this.selectedColor();

@@ -24,10 +24,9 @@ export class Step3Component implements OnInit {
   configDescription = '';
   configPrice = 0;
   colorPrice = 0;
-  yokePrice = 1000; // Example price
-  towHitchPrice = 1000; // Example price
+  yokePrice = 1000;
+  towHitchPrice = 1000;
 
-  // Expose service signals to the template
   selectedModel = this.configuratorService.selectedModel;
   selectedColor = this.configuratorService.selectedColor;
   selectedConfig = this.configuratorService.selectedConfig;
@@ -38,13 +37,10 @@ export class Step3Component implements OnInit {
   totalPrice = this.configuratorService.totalPrice;
 
   ngOnInit() {
-    // Set initial values
     this.updateDisplayValues();
 
-    // Check if we're on the order route
     this.checkIfOrderRoute();
 
-    // Subscribe to route changes to update the isOrderRoute flag
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {

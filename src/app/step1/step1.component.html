@@ -1,5 +1,5 @@
 <h1>Step 1: Choose your Model and Color</h1>
-<div class="model-color">
+<div>
 <div>
   <label>Model:</label>
   <select (change)="onModelChange($event)">
@@ -18,7 +18,7 @@
   <select (change)="onColorChange($event)">
     @for (color of availableColors(); track color.code) {
       <option [value]="color.code">
-        {{ color.description }} 
+        {{ color.description }}
       </option>
     }
   </select>

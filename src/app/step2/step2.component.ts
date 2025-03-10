@@ -13,7 +13,6 @@ import { CarModel, Color, CarOptions, Config, SelectedConfig } from '../models.t
 export class Step2Component {
   public configuratorService = inject(ConfiguratorService);
 
-  // Getters for selected model and color information
   get modelCode(): string {
     return this.configuratorService.selectedModel()?.code || '';
   }
@@ -36,9 +35,8 @@ export class Step2Component {
   selectedYoke = this.configuratorService.selectedYoke;
   selectedTowHitch = this.configuratorService.selectedTowHitch;
   totalPrice = this.configuratorService.totalPrice;
-  imageUrl = this.configuratorService.imageUrl;  // Add imageUrl
+  imageUrl = this.configuratorService.imageUrl;
 
-  // Event handlers for form controls
   onConfigChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     const configId = target.value;
@@ -49,7 +47,6 @@ export class Step2Component {
         this.configuratorService.setSelectedConfig(config);
       }
     } else {
-      // Handle the case when no config is selected
       this.configuratorService.selectedConfig.set(undefined);
     }
   }

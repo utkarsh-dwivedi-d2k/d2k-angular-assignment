@@ -23,7 +23,6 @@
     }
 
     <div class="options">
-      <h3>Additional Options</h3>
 
       @if (yokeAvailable()) {
         <div class="option">
@@ -33,7 +32,7 @@
             [checked]="selectedYoke()"
             (change)="onYokeChange($event)"
           >
-          <label for="yoke">Yoke Steering Wheel ($1,000)</label>
+          <label for="yoke">Yoke Steering Wheel </label>
         </div>
       }
 
@@ -45,7 +44,7 @@
             [checked]="selectedTowHitch()"
             (change)="onTowHitchChange($event)"
           >
-          <label for="towHitch">Tow Hitch Package ($1,000)</label>
+          <label for="towHitch">Tow Hitch Package </label>
         </div>
       }
     </div>
