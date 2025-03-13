@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { ConfiguratorService } from '../configurator.service';
 import { filter } from 'rxjs/operators';
 
@@ -14,11 +14,8 @@ import { filter } from 'rxjs/operators';
 export class Step3Component implements OnInit {
   public configuratorService = inject(ConfiguratorService);
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
 
   isOrderRoute = false;
-
-  // Properties for the template
   modelDescription = '';
   colorDescription = '';
   configDescription = '';
@@ -27,18 +24,31 @@ export class Step3Component implements OnInit {
   yokePrice = 1000;
   towHitchPrice = 1000;
 
-  selectedModel = this.configuratorService.selectedModel;
-  selectedColor = this.configuratorService.selectedColor;
-  selectedConfig = this.configuratorService.selectedConfig;
-  yokeAvailable = this.configuratorService.yokeAvailable;
-  towHitchAvailable = this.configuratorService.towHitchAvailable;
-  selectedYoke = this.configuratorService.selectedYoke;
-  selectedTowHitch = this.configuratorService.selectedTowHitch;
-  totalPrice = this.configuratorService.totalPrice;
+  selectedModel: Signal<any>;
+  selectedColor: Signal<any>;
+  selectedConfig: Signal<any>;
+  yokeAvailable: Signal<boolean>;
+  towHitchAvailable: Signal<boolean>;
+  selectedYoke: Signal<boolean>;
+  selectedTowHitch: Signal<boolean>;
+  totalPrice: Signal<number>;
+
+  constructor() {
+    this.selectedModel = this.configuratorService.selectedModel;
+    this.selectedColor = this.configuratorService.selectedColor;
+    this.selectedConfig = this.configuratorService.selectedConfig;
+    this.yokeAvailable = this.configuratorService.yokeAvailable;
+    this.towHitchAvailable = this.configuratorService.towHitchAvailable;
+    this.selectedYoke = this.configuratorService.selectedYoke;
+    this.selectedTowHitch = this.configuratorService.selectedTowHitch;
+    this.totalPrice = this.configuratorService.totalPrice;
+
+    effect(() => {
+      this.updateDisplayValues();
+    });
+  }
 
   ngOnInit() {
-    this.updateDisplayValues();
-
     this.checkIfOrderRoute();
 
     this.router.events.pipe(
@@ -49,23 +59,18 @@ export class Step3Component implements OnInit {
   }
 
   private checkIfOrderRoute() {
-    const url = this.router.url;
-    this.isOrderRoute = url.includes('/step3/order');
+    this.isOrderRoute = this.router.url.includes('/step3/order');
   }
 
   private updateDisplayValues() {
-    if (this.selectedModel()) {
-      this.modelDescription = this.selectedModel()?.description || '';
-    }
+    const model = this.selectedModel();
+    const color = this.selectedColor();
+    const config = this.selectedConfig();
 
-    if (this.selectedColor()) {
-      this.colorDescription = this.selectedColor()?.description || '';
-      this.colorPrice = this.selectedColor()?.price || 0;
-    }
-
-    if (this.selectedConfig()) {
-      this.configDescription = this.selectedConfig()?.description || '';
-      this.configPrice = this.selectedConfig()?.price || 0;
-    }
+    this.modelDescription = model ? model.description : '';
+    this.colorDescription = color ? color.description : '';
+    this.colorPrice = color ? color.price : 0;
+    this.configDescription = config ? config.description : '';
+    this.configPrice = config ? config.price : 0;
   }
 }

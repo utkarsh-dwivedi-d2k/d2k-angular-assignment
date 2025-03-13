@@ -1,18 +1,24 @@
-<div>
-  <a [routerLink]="['/step1']" class="btn btn-secondary">Back to Model & Color</a>
-  <a [routerLink]="['/step2']" class="btn btn-secondary">Back to Configuration</a>
+
+<div class="navigation-buttons">
+  <a [routerLink]="['/step2']" class="btn btn-secondary">Back</a>
+  <a [routerLink]="['/placeorder']" class="btn btn-primary">placeorder</a>
 </div>
+
+
+
 
 
 
 @if (!isOrderRoute) {
 
 
-  <div >
-    <h1>Step 3: Order Summary</h1>
-     <div >
+
+
+  <div class="summary-container">
+    <h1>Step 3:  Summary</h1>
+     <div class="car-summary">
       <h2>Your Tesla Configuration</h2>
-      <div>
+      <div class="car-details">
         <p><strong>Model:</strong> {{ modelDescription }}</p>
         <p><strong>Color:</strong> {{ colorDescription }}</p>
         <p><strong>Configuration:</strong> {{ configDescription }}</p>
@@ -27,9 +33,9 @@
       </div>
     </div>
 
-    <div >
+    <div class="cost-breakdown">
       <h2>Cost Breakdown</h2>
-      <table >
+      <table class="price-table">
         <tbody>
           <tr>
             <td>Base Configuration ({{ configDescription }})</td>
@@ -54,7 +60,7 @@
             </tr>
           }
 
-          <tr >
+          <tr class="total-row">
             <td><strong>Total Price</strong></td>
             <td class="price"><strong>{{ totalPrice() | currency }}</strong></td>
           </tr>
@@ -64,7 +70,7 @@
 
 
   </div>
-  <div >
+  <div class="car-image" style="display: flex; justify-content: center">
     @if (configuratorService.imageUrl()) {
       <img [src]="configuratorService.imageUrl()" alt="Your Tesla" />
     }

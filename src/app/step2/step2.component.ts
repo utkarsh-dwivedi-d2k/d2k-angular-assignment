@@ -25,7 +25,6 @@ export class Step2Component {
     return this.configuratorService.selectedColor()?.description || '';
   }
 
-  // Expose service signals to the template
   selectedModel = this.configuratorService.selectedModel;
   selectedColor = this.configuratorService.selectedColor;
   selectedConfig = this.configuratorService.selectedConfig;

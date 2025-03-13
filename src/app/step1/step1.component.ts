@@ -24,16 +24,7 @@ export class Step1Component {
   selectedColor = this.configuratorService.selectedColor;
   imageUrl = this.configuratorService.imageUrl;
 
-
   onModelChange(event: Event) {
-
-
-
-
-
-
-
-    
     const target = event.target as HTMLSelectElement;
     const selectedModelCode = target.value || null;
     const model = this.allModels().find(m => m.code === selectedModelCode);
@@ -54,6 +45,13 @@ export class Step1Component {
     }
   }
 
+  constructor() {
+    console.log('Available Models:', this.configuratorService.allModels());
+    console.log('Selected Model:', this.configuratorService.selectedModel());
 
+    effect(() => {
+      console.log('Current Model:', this.configuratorService.selectedModel()?.code);
+      console.log('Current Color:', this.configuratorService.selectedColor()?.code);
+    });
+  }
 }
-

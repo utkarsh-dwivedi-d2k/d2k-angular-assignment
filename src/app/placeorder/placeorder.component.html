@@ -1,0 +1,36 @@
+<div class="container">
+  <h1>Place Order</h1>
+
+  <form [formGroup]="myform" (ngSubmit)="onSubmit()">
+    <input type="text" placeholder="Enter your first name" formControlName="firstName">
+    <div *ngIf="myform.controls['firstName'].invalid && myform.controls['firstName'].touched">
+      <small>First name is required</small>
+    </div>
+
+    <input type="text" placeholder="Enter your last name" formControlName="lastName">
+    <div *ngIf="myform.controls['lastName'].invalid && myform.controls['lastName'].touched">
+      <small>Last name is required</small>
+    </div>
+
+    <input type="email" placeholder="Enter your email" formControlName="email">
+    <div *ngIf="myform.controls['email'].invalid && myform.controls['email'].touched">
+      <small>Enter a valid email</small>
+    </div>
+
+    <input type="password" placeholder="Enter password" formControlName="password">
+    <div *ngIf="myform.controls['password'].invalid && myform.controls['password'].touched">
+      <small>Password must be at least 8 characters</small>
+    </div>
+
+    <input type="password" placeholder="Confirm password" formControlName="confirmPassword">
+    <div *ngIf="myform.controls['confirmPassword'].invalid && myform.controls['confirmPassword'].touched">
+      <small>Confirm password is required</small>
+    </div>
+
+    <div class="car-image" *ngIf="configuratorService.imageUrl()" style="display: flex; justify-content: center;">
+      <img [src]="configuratorService.imageUrl()" alt="Your Selected Car" />
+    </div>
+
+    <button type="submit" [disabled]="myform.invalid">Submit</button>
+  </form>
+</div>
